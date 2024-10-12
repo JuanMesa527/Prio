@@ -27,6 +27,32 @@ public class Project implements Parcelable {
             case 3:
                 this.logoResId = R.drawable.derechos_mujeres;
                 break;
+            case 4:
+                this.logoResId = R.drawable.instalaciones_sociales;
+                break;
+            case 5:
+                this.logoResId = R.drawable.justicia_seguridad_paz_convivencia;
+                break;
+            case 6:
+                this.logoResId = R.drawable.movilidad_local;
+                break;
+            case 7:
+                this.logoResId = R.drawable.parques;
+                break;
+            case 8:
+                this.logoResId = R.drawable.participacion_ciudadana;
+                break;
+            case 9:
+                this.logoResId = R.drawable.reactivacion_economica;
+                break;
+            case 10:
+                this.logoResId = R.drawable.utilizacion_espacio_publico;
+                break;
+            case 11:
+                this.logoResId = R.drawable.atencion_riesgos_emergencias;
+                break;
+            default:
+
         }
         this.id = id;
         this.title = title;
