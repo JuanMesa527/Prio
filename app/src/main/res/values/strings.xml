@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Prio</string>
+    <string name="Welcome_textView">Bienvenido a Prio</string>
+
+    <string name="login_button">Iniciar Sesion</string>
+    <string name="register_button">Registrarse</string>
+    <string name="firstName_field">Nombre</string>
+    <string name="lastName_field">Apellido</string>
+    <string name="age_field">Edad</string>
+    <string name="locality_field">localidad</string>
+    <string name="email_field">Correo\nElectronico</string>
+    <string name="password_field">Contraseña</string>
+    <string name="confirm_password_field">Confirmar\nContraseña</string>
+    <string name="logout_button">Cerrar sesion</string>
+    <string name="titulo">Gestion de proyectos</string>
+    <string name="agregarProyecto">Agregar Proyecto</string>
+    <string name="eliminarProyecto">Eliminar/Editar Proyecto</string>
+    <string name="descripcion_field">Descripcion</string>
+    <string name="budget_field">Presupuesto</string>
+    <string name="start_date_field">Fecha de\ninicio</string>
+    <string name="agregar_button">Agregar</string>
+    <string name="end_date_field">Fecha de\nFinalizacion</string>
+    <string name="category">categoria</string>
+    <string name="id_field">Cedula</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="direccion_field">Direccion</string>
+    <string name="idProyecto_field">ID Proyecto</string>
+    <string name="eliminar_button">Eliminar Proyecto</string>
+    <string name="favor">A Favor</string>
+    <string name="indiferente">Indiferente</string>
+    <string name="contra">En Contra</string>
+    <string name="voto">¿Cual es su posicion frente al proyecto?</string>
+    <string name="opinion">Comentarios</string>
+    <string name="opinionHint">Ingrese sus comentarios</string>
+    <string name="enviarVoto">Enviar Voto</string>
+    <string name="editar_button">Editar Proyecto</string>
+    <string name="showId">"Editando proyecto con ID: "</string>
+
+</resources>
