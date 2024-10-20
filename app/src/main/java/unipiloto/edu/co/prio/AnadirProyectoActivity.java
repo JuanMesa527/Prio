@@ -56,14 +56,13 @@ public class AnadirProyectoActivity extends AppCompatActivity {
         loadLocalities(localitySpinner, categorySpinner);
         Places.initialize(getApplicationContext(), BuildConfig.googleApiKey);
         PlacesClient placesClient = Places.createClient(this);
-        // Initialize the AutocompleteSupportFragment.
+
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        // Specify the types of place data to return.
+
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG));
 
-        // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             private static final String TAG = "AnadirProyectoActivity";
             @Override

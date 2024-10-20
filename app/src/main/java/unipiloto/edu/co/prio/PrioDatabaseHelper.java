@@ -122,6 +122,14 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("CREATE TEMPORARY TABLE Role_backup AS SELECT * FROM Role");
+        db.execSQL("CREATE TEMPORARY TABLE Category_backup AS SELECT * FROM Category");
+        db.execSQL("CREATE TEMPORARY TABLE Locality_backup AS SELECT * FROM Locality");
+        db.execSQL("CREATE TEMPORARY TABLE User_backup AS SELECT * FROM User");
+        db.execSQL("CREATE TEMPORARY TABLE Project_backup AS SELECT * FROM Project");
+        db.execSQL("CREATE TEMPORARY TABLE Vote_type_backup AS SELECT * FROM Vote_type");
+        db.execSQL("CREATE TEMPORARY TABLE Vote_backup AS SELECT * FROM Vote");
+
         db.execSQL("DROP TABLE IF EXISTS Role");
         db.execSQL("DROP TABLE IF EXISTS Category");
         db.execSQL("DROP TABLE IF EXISTS Locality");
@@ -129,7 +137,24 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Project");
         db.execSQL("DROP TABLE IF EXISTS Vote_type");
         db.execSQL("DROP TABLE IF EXISTS Vote");
+
         onCreate(db);
+
+        db.execSQL("INSERT INTO Role SELECT * FROM Role_backup");
+        db.execSQL("INSERT INTO Category SELECT * FROM Category_backup");
+        db.execSQL("INSERT INTO Locality SELECT * FROM Locality_backup");
+        db.execSQL("INSERT INTO User SELECT * FROM User_backup");
+        db.execSQL("INSERT INTO Project SELECT * FROM Project_backup");
+        db.execSQL("INSERT INTO Vote_type SELECT * FROM Vote_type_backup");
+        db.execSQL("INSERT INTO Vote SELECT * FROM Vote_backup");
+
+        db.execSQL("DROP TABLE Role_backup");
+        db.execSQL("DROP TABLE Category_backup");
+        db.execSQL("DROP TABLE Locality_backup");
+        db.execSQL("DROP TABLE User_backup");
+        db.execSQL("DROP TABLE Project_backup");
+        db.execSQL("DROP TABLE Vote_type_backup");
+        db.execSQL("DROP TABLE Vote_backup");
     }
 
     public void initData(){
