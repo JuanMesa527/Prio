@@ -35,5 +35,7 @@
     <string name="enviarVoto">Enviar Voto</string>
     <string name="editar_button">Editar Proyecto</string>
     <string name="showId">"Editando proyecto con ID: "</string>
+    <string name="map">map</string>
+    <string name="logout">logout</string>
 
 </resources>
