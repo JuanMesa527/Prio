@@ -26,7 +26,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import unipiloto.edu.co.prio.R;
 
@@ -42,8 +45,6 @@ public class HomeActivity extends AppCompatActivity {
     private PrioDatabaseHelper dbHelper;
     private ArrayAdapter<Project> listAdapter;
     private DrawerLayout drawerLayout;
-    private static final int idLogout = R.id.logout_icon;
-    private static final int idMap = R.id.map_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +55,12 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.titulo), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         dbHelper = new PrioDatabaseHelper(this);
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
@@ -205,10 +209,10 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == idLogout) {
+        if (item.getItemId() == R.id.logout_icon) {
             logout(null);
             return true;
-        } else if (item.getItemId() == idMap) {
+        } else if (item.getItemId() == R.id.map_icon) {
             Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
             startActivity(mapIntent);
             return true;

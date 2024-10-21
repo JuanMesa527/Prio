@@ -3,7 +3,9 @@
     <style name="Base.Theme.Prio" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
     </style>
 
     <style name="Theme.Prio" parent="Base.Theme.Prio" />
 </resources>
+

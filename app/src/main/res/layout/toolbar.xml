@@ -6,9 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="#9CA4A1"
-    android:elevation="4dp"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:logo="@drawable/map"
+    android:fitsSystemWindows="false"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    app:title=""/>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo" />
+    </FrameLayout>
+</androidx.appcompat.widget.Toolbar>
