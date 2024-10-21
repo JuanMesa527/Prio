@@ -1,7 +1,10 @@
 package unipiloto.edu.co.prio;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,7 +13,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,6 +37,13 @@ public class ProjectActivity extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         dbHelper = new PrioDatabaseHelper(this);
 
@@ -59,12 +75,33 @@ public class ProjectActivity extends AppCompatActivity implements OnMapReadyCall
         title = item.getTitle();
 
 
-        // Get a handle to the fragment and register the callback.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-    // Get a handle to the GoogleMap object and display marker.
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logout_icon) {
+            logout(null);
+            return true;
+        } else if (item.getItemId() == R.id.map_icon) {
+            Intent mapIntent = new Intent(ProjectActivity.this, MapsActivity.class);
+            startActivity(mapIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng initialLocation = new LatLng(lat, lng);
@@ -103,7 +140,15 @@ public class ProjectActivity extends AppCompatActivity implements OnMapReadyCall
             Toast.makeText(this, "Por favor, seleccione una puntuación", Toast.LENGTH_SHORT).show();
         }
     }
+    public void logout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false);
+        editor.remove("userEmail");
+        editor.apply();
 
-
-
+        Intent loginIntent = new Intent(ProjectActivity.this, MainActivity.class);
+        startActivity(loginIntent);
+        finish();
+    }
 }

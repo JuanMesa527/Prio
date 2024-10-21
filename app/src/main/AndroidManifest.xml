@@ -17,7 +17,8 @@
             android:exported="false" />
         <activity
             android:name=".EditarProyectoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".EliminarEditarProyectoActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -25,10 +26,12 @@
 
         <activity
             android:name=".EliminarEditarProyectoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ManageProyectActivity"/>
         <activity
             android:name=".AnadirProyectoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ManageProyectActivity" />
         <activity
             android:name=".ManageProyectActivity"
             android:exported="false" />
@@ -43,7 +46,8 @@
             android:exported="false" />
         <activity
             android:name=".ProjectActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

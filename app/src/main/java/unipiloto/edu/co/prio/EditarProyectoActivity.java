@@ -2,11 +2,14 @@ package unipiloto.edu.co.prio;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -18,7 +21,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -98,6 +103,35 @@ public class EditarProyectoActivity extends AppCompatActivity {
             }
         });
         setAutocompleteFragmentAddress(project.getAddress(), autocompleteFragment);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_anadir);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logout_icon) {
+            logout(null);
+            return true;
+        } else if (item.getItemId() == R.id.map_icon) {
+            Intent mapIntent = new Intent(EditarProyectoActivity.this, MapsActivity.class);
+            startActivity(mapIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public void editarProyecto(View view) {
@@ -197,5 +231,16 @@ public class EditarProyectoActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void logout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false);
+        editor.remove("userEmail");
+        editor.apply();
+
+        Intent loginIntent = new Intent(EditarProyectoActivity.this, MainActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 }
