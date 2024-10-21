@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
@@ -52,6 +53,9 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         dbHelper = new PrioDatabaseHelper(this);
@@ -199,17 +203,19 @@ public class HomeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case :
-//                Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
-//                startActivity(intent);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == idLogout) {
+            logout(null);
+            return true;
+        } else if (item.getItemId() == idMap) {
+            Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
+            startActivity(mapIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void loadMenuItems() {
         NavigationView navigationView = findViewById(R.id.nav_view);
