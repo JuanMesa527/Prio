@@ -108,7 +108,7 @@ public class ProjectActivity extends AppCompatActivity implements OnMapReadyCall
         googleMap.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(initialLocation, 15));
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lng))
-                .title("Localizacion Proyecto" + title));
+                .title(title));
     }
 
     public void votar(View view) {
