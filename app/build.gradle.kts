@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.material)
     implementation("com.google.android.libraries.places:places:2.6.0")
     implementation(libs.appcompat)
     implementation(libs.material)

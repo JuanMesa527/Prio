@@ -6,6 +6,22 @@
 
     </style>
 
+    <style name="CustomButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_style</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="CustomTitleTextView" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">#161418</item>
+        <item name="android:fontFamily">@font/playfairdisplayblack</item>
+    </style>
+
+    <style name="CustomTextView" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">#161418</item>
+        <item name="android:fontFamily">@font/playfairdisplayregular</item>
+    </style>
+
     <style name="Theme.Prio" parent="Base.Theme.Prio" />
 </resources>
 

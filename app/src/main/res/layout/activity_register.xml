@@ -21,6 +21,7 @@
 
     <TextView
         android:id="@+id/textViewTitleRegister"
+        style="@style/CustomTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -35,14 +36,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
         android:hint="@string/id_field"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:inputType="number"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/id_textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleRegister" />
 
     <EditText
         android:id="@+id/firstName"
@@ -51,6 +54,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/firstName_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/firstname_textView"
@@ -63,6 +68,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/lastName_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lastname_textView"
@@ -75,6 +82,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/email_field"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,6 +97,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/password_field"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,17 +107,22 @@
 
     <Button
         android:id="@+id/buttonAgregar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/CustomButton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/register_button"
         android:onClick="registrar"
+        android:text="@string/register_button"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/firstname_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -119,6 +135,7 @@
 
     <TextView
         android:id="@+id/id_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/id_field"
@@ -130,6 +147,7 @@
 
     <TextView
         android:id="@+id/lastname_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -142,6 +160,7 @@
 
     <TextView
         android:id="@+id/email_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -152,6 +171,7 @@
 
     <TextView
         android:id="@+id/password_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -170,6 +190,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/age_field"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
@@ -178,6 +200,7 @@
 
     <TextView
         android:id="@+id/budget_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
@@ -190,6 +213,7 @@
 
     <TextView
         android:id="@+id/conPassword_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -208,6 +232,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:background="@drawable/edittext_style"
+        android:padding="10dp"
         android:hint="@string/confirm_password_field"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -216,6 +242,7 @@
 
     <TextView
         android:id="@+id/locality_textView"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
