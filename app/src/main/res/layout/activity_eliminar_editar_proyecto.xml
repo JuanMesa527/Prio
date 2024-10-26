@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/textViewTitleRegister"
+        style="@style/CustomTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -29,22 +30,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_style"
         android:hint="@string/idProyecto_field"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/id_textView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitleRegister"
         app:layout_constraintVertical_bias="0.07999998" />
-
-    <TextView
-        android:id="@+id/id_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/idProyecto_field"
-        app:layout_constraintBottom_toBottomOf="@+id/idProyectos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/idProyectos" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -68,6 +61,7 @@
 
     <Button
         android:id="@+id/buttonEliminar"
+        style="@style/CustomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -81,6 +75,7 @@
 
     <Button
         android:id="@+id/button"
+        style="@style/CustomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

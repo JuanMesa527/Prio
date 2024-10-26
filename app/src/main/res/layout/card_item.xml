@@ -29,6 +29,7 @@
 
             <TextView
                 android:id="@+id/titleTextView"
+                style="@style/CustomTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
@@ -37,6 +38,7 @@
 
             <TextView
                 android:id="@+id/descriptionTextView"
+                style="@style/CustomTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
