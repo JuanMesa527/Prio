@@ -13,30 +13,40 @@
         android:theme="@style/Theme.Prio"
         tools:targetApi="31">
         <activity
+            android:name=".deciderActivities.GeneralStatisticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".deciderActivities.ProjectStatisticsActivity"
+            android:exported="false"
+            android:parentActivityName=".deciderActivities.StatisticsActivity" />
+        <activity
+            android:name=".deciderActivities.StatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".EditarProyectoActivity"
+            android:name=".plannerActivities.EditarProyectoActivity"
             android:exported="false"
-            android:parentActivityName=".EliminarEditarProyectoActivity"/>
+            android:parentActivityName=".plannerActivities.EliminarEditarProyectoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${googleApiKey}" />
 
         <activity
-            android:name=".EliminarEditarProyectoActivity"
+            android:name=".plannerActivities.EliminarEditarProyectoActivity"
             android:exported="false"
-            android:parentActivityName=".ManageProyectActivity"/>
+            android:parentActivityName=".plannerActivities.ManageProyectActivity" />
         <activity
-            android:name=".AnadirProyectoActivity"
+            android:name=".plannerActivities.AnadirProyectoActivity"
             android:exported="false"
-            android:parentActivityName=".ManageProyectActivity" />
+            android:parentActivityName=".plannerActivities.ManageProyectActivity" />
         <activity
-            android:name=".ManageProyectActivity"
+            android:name=".plannerActivities.ManageProyectActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".citizenActivities.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
@@ -45,9 +55,9 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ProjectActivity"
+            android:name=".citizenActivities.ProjectActivity"
             android:exported="false"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".citizenActivities.HomeActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

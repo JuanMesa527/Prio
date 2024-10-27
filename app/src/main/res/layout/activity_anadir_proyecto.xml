@@ -11,7 +11,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".AnadirProyectoActivity">
+        tools:context=".plannerActivities.AnadirProyectoActivity">
 
         <include
             android:id="@+id/toolbar_anadir"

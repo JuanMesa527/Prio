@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Encriptación de la contraseña (opcional)
         // String encryptedPassword = encryptPassword(passwordText);
 
-        boolean insertado = dbHelper.insertUser(idInt, firstNameText, lastNameText, ageInt, emailText, passwordText, 0, localityId);
+        boolean insertado = dbHelper.insertUser(idInt, firstNameText, lastNameText, ageInt, emailText, passwordText, 1, localityId);
         if (insertado) {
             Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
             Intent registerIntent = new Intent(RegisterActivity.this, MainActivity.class);

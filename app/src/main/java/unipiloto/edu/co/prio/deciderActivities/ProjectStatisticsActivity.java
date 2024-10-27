@@ -1,37 +1,69 @@
-package unipiloto.edu.co.prio;
+package unipiloto.edu.co.prio.deciderActivities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.content.Intent;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class ManageProyectActivity extends AppCompatActivity {
+import unipiloto.edu.co.prio.MainActivity;
+import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.PrioDatabaseHelper;
+import unipiloto.edu.co.prio.Project;
+import unipiloto.edu.co.prio.R;
+import unipiloto.edu.co.prio.citizenActivities.ProjectActivity;
+
+public class ProjectStatisticsActivity extends AppCompatActivity {
+
+    private PrioDatabaseHelper dbHelper;
+    private String title;
+    private Project item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_proyect);
+        setContentView(R.layout.activity_project_statistics);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.titulo), (v, insets) -> {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        dbHelper = new PrioDatabaseHelper(this);
+
+
+        TextView titleTextView = findViewById(R.id.titleTextView_ProjectStatistics);
+        TextView categoryTextView = findViewById(R.id.categoryTextView_ProjectStatistics);
+        TextView localityTextView = findViewById(R.id.localityTextView_ProjectStatistics);
+
+        item = getIntent().getParcelableExtra("item");
+
+        if (item != null) {
+            titleTextView.setText(item.getTitle());
+            categoryTextView.setText("Categoría: " + dbHelper.getCategoryName(item.getCategoryId()));
+            localityTextView.setText("Localidad: " + dbHelper.getLocalityName(item.getLocalityId()));
+        }
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -44,21 +76,12 @@ public class ManageProyectActivity extends AppCompatActivity {
             logout(null);
             return true;
         } else if (item.getItemId() == R.id.map_icon) {
-            Intent mapIntent = new Intent(ManageProyectActivity.this, MapsActivity.class);
+            Intent mapIntent = new Intent(ProjectStatisticsActivity.this, MapsActivity.class);
             startActivity(mapIntent);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void agregarProyecto(View view) {
-        Intent intent = new Intent(ManageProyectActivity.this, AnadirProyectoActivity.class);
-        startActivity(intent);
-    }
-    public void eliminarProyecto(View view) {
-        Intent intent = new Intent(ManageProyectActivity.this, EliminarEditarProyectoActivity.class);
-        startActivity(intent);
     }
     public void logout(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
@@ -67,7 +90,7 @@ public class ManageProyectActivity extends AppCompatActivity {
         editor.remove("userEmail");
         editor.apply();
 
-        Intent loginIntent = new Intent(ManageProyectActivity.this, MainActivity.class);
+        Intent loginIntent = new Intent(ProjectStatisticsActivity.this, MainActivity.class);
         startActivity(loginIntent);
         finish();
     }

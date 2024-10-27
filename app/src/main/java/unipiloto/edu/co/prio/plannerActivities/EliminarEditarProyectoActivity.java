@@ -1,4 +1,4 @@
-package unipiloto.edu.co.prio;
+package unipiloto.edu.co.prio.plannerActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +19,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
+
+import unipiloto.edu.co.prio.MainActivity;
+import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.PrioDatabaseHelper;
+import unipiloto.edu.co.prio.R;
 
 public class EliminarEditarProyectoActivity extends AppCompatActivity {
 

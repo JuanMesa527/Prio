@@ -13,6 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import unipiloto.edu.co.prio.citizenActivities.HomeActivity;
+import unipiloto.edu.co.prio.deciderActivities.StatisticsActivity;
+import unipiloto.edu.co.prio.plannerActivities.ManageProyectActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
@@ -49,20 +53,20 @@ public class LoginActivity extends AppCompatActivity {
             editor.putInt("userRole", Integer.parseInt(infoLogin[1]));
 
             editor.apply();
-            if (Integer.parseInt(infoLogin[1]) == 0) {
+            if (Integer.parseInt(infoLogin[1]) == 1) {
                 Intent loginIntent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(loginIntent);
                 finish();
-            } else if (Integer.parseInt(infoLogin[1]) == 1) {
+            } else if (Integer.parseInt(infoLogin[1]) == 2) {
                 Intent loginIntent = new Intent(LoginActivity.this, ManageProyectActivity.class);
                 startActivity(loginIntent);
                 finish();
-            } //else {
-                //login del decisor
-//                Intent loginIntent = new Intent(LoginActivity.this, .class);
-//                startActivity(loginIntent);
-//                finish();
-            //}
+            } else if(Integer.parseInt(infoLogin[1]) == 3){
+                Intent loginIntent = new Intent(LoginActivity.this, StatisticsActivity.class);
+                startActivity(loginIntent);
+                finish();
+            }
+            //else login admin
         } else {
             Toast.makeText(this, "Credenciales incorrectas o usuario inexistente", Toast.LENGTH_SHORT).show();
         }

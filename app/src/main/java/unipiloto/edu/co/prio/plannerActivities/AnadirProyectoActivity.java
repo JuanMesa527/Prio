@@ -1,4 +1,4 @@
-package unipiloto.edu.co.prio;
+package unipiloto.edu.co.prio.plannerActivities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -21,10 +21,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 
 import com.google.android.gms.common.api.Status;
@@ -40,6 +36,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import unipiloto.edu.co.prio.BuildConfig;
+import unipiloto.edu.co.prio.MainActivity;
+import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.PrioDatabaseHelper;
+import unipiloto.edu.co.prio.R;
 
 public class AnadirProyectoActivity extends AppCompatActivity {
     private EditText editTextDate;

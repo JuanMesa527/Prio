@@ -5,7 +5,7 @@
     android:id="@+id/titulo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManageProyectActivity">
+    tools:context=".plannerActivities.ManageProyectActivity">
 
     <include
         android:id="@+id/toolbar"

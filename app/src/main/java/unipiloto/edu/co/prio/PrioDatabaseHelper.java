@@ -12,7 +12,7 @@ import java.util.List;
 public class PrioDatabaseHelper  extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "prio";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
 
 
     public PrioDatabaseHelper(Context context) {
@@ -116,8 +116,9 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Vote_type (NAME) VALUES ('Indiferente')");
         db.execSQL("INSERT INTO Vote_type (NAME) VALUES ('En Contra')");
 
-        db.execSQL("INSERT INTO User (ID,FIRST_NAME, LAST_NAME, AGE, EMAIL, PASSWORD, ROLE_ID, LOCALITY_ID) VALUES (1,'pruebas', 'pruebas', 20, 'pruebas@gmail.com', '123', 1, 1)");
+        db.execSQL("INSERT INTO User (ID,FIRST_NAME, LAST_NAME, AGE, EMAIL, PASSWORD, ROLE_ID, LOCALITY_ID) VALUES (1,'pruebas', 'pruebas', 20, 'pruebas@gmail.com', '123', 2, 1)");
         db.execSQL("INSERT INTO User (ID,FIRST_NAME, LAST_NAME, AGE, EMAIL, PASSWORD, ROLE_ID, LOCALITY_ID) VALUES (2,'admin', 'admin', 20, 'admin@admin.com', 'admin', 4, 1)");
+        db.execSQL("INSERT INTO User (ID,FIRST_NAME, LAST_NAME, AGE, EMAIL, PASSWORD, ROLE_ID, LOCALITY_ID) VALUES (4,'decisor', 'decisor', 20, 'decisor@decisor.com', '123', 3, 1)");
     }
 
     @Override
@@ -140,13 +141,13 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
 
         onCreate(db);
 
-        db.execSQL("INSERT INTO Role SELECT * FROM Role_backup");
-        db.execSQL("INSERT INTO Category SELECT * FROM Category_backup");
-        db.execSQL("INSERT INTO Locality SELECT * FROM Locality_backup");
-        db.execSQL("INSERT INTO User SELECT * FROM User_backup");
-        db.execSQL("INSERT INTO Project SELECT * FROM Project_backup");
-        db.execSQL("INSERT INTO Vote_type SELECT * FROM Vote_type_backup");
-        db.execSQL("INSERT INTO Vote SELECT * FROM Vote_backup");
+        db.execSQL("INSERT OR IGNORE INTO Role SELECT * FROM Role_backup");
+        db.execSQL("INSERT OR IGNORE INTO Category SELECT * FROM Category_backup");
+        db.execSQL("INSERT OR IGNORE INTO Locality SELECT * FROM Locality_backup");
+        db.execSQL("INSERT OR IGNORE INTO User SELECT * FROM User_backup");
+        db.execSQL("INSERT OR IGNORE INTO Project SELECT * FROM Project_backup");
+        db.execSQL("INSERT OR IGNORE INTO Vote_type SELECT * FROM Vote_type_backup");
+        db.execSQL("INSERT OR IGNORE INTO Vote SELECT * FROM Vote_backup");
 
         db.execSQL("DROP TABLE Role_backup");
         db.execSQL("DROP TABLE Category_backup");

@@ -1,9 +1,8 @@
-package unipiloto.edu.co.prio;
+package unipiloto.edu.co.prio.deciderActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +10,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,28 +17,25 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import unipiloto.edu.co.prio.R;
 
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import unipiloto.edu.co.prio.MainActivity;
+import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.PrioDatabaseHelper;
+import unipiloto.edu.co.prio.Project;
+import unipiloto.edu.co.prio.R;
 
-
-public class HomeActivity extends AppCompatActivity {
+public class StatisticsActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
     private ArrayAdapter<Project> listAdapter;
@@ -50,29 +45,23 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_statistics);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.titulo), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         dbHelper = new PrioDatabaseHelper(this);
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         ArrayList<Project> projects = dbHelper.getAllProjects();
-        ListView listView = findViewById(R.id.listView);
-        SearchView searchView = findViewById(R.id.busqueda);
-        ImageButton filterButton = findViewById(R.id.filter_button);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        ListView listView = findViewById(R.id.listView_Statistics);
+        SearchView searchView = findViewById(R.id.busqueda_Statistics);
+        ImageButton filterButton = findViewById(R.id.filter_buttonStatistics);
+        drawerLayout = findViewById(R.id.drawer_layout_Statistics);
+        NavigationView navigationView = findViewById(R.id.nav_viewStatistics);
         loadMenuItems();
 
 
@@ -107,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                 descriptionTextView.setText(currentItem.getDescription());
 
                 convertView.setOnClickListener(v -> {
-                    Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
+                    Intent intent = new Intent(StatisticsActivity.this, ProjectStatisticsActivity.class);
                     intent.putExtra("item", currentItem);
                     startActivity(intent);
 
@@ -201,6 +190,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+    public void generales(View view) {
+        Intent intent = new Intent(StatisticsActivity.this, GeneralStatisticsActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -214,7 +207,7 @@ public class HomeActivity extends AppCompatActivity {
             logout(null);
             return true;
         } else if (item.getItemId() == R.id.map_icon) {
-            Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
+            Intent mapIntent = new Intent(StatisticsActivity.this, MapsActivity.class);
             startActivity(mapIntent);
             return true;
         } else {
@@ -223,7 +216,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadMenuItems() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_viewStatistics);
         Menu menu = navigationView.getMenu();
         menu.clear();
 
@@ -249,7 +242,7 @@ public class HomeActivity extends AppCompatActivity {
         editor.remove("userEmail");
         editor.apply();
 
-        Intent loginIntent = new Intent(HomeActivity.this, MainActivity.class);
+        Intent loginIntent = new Intent(StatisticsActivity.this, MainActivity.class);
         startActivity(loginIntent);
         finish();
     }

@@ -1,4 +1,4 @@
-package unipiloto.edu.co.prio;
+package unipiloto.edu.co.prio.citizenActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,15 +16,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import unipiloto.edu.co.prio.MainActivity;
+import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.PrioDatabaseHelper;
+import unipiloto.edu.co.prio.Project;
+import unipiloto.edu.co.prio.R;
 
 public class ProjectActivity extends AppCompatActivity implements OnMapReadyCallback {
 
