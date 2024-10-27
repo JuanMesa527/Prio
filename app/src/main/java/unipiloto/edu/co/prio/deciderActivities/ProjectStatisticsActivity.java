@@ -17,6 +17,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+
 import unipiloto.edu.co.prio.MainActivity;
 import unipiloto.edu.co.prio.MapsActivity;
 import unipiloto.edu.co.prio.PrioDatabaseHelper;
@@ -27,7 +30,7 @@ import unipiloto.edu.co.prio.citizenActivities.ProjectActivity;
 public class ProjectStatisticsActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
-    private String title;
+    private BarChart barChart;
     private Project item;
 
     @Override
@@ -48,6 +51,7 @@ public class ProjectStatisticsActivity extends AppCompatActivity {
         TextView titleTextView = findViewById(R.id.titleTextView_ProjectStatistics);
         TextView categoryTextView = findViewById(R.id.categoryTextView_ProjectStatistics);
         TextView localityTextView = findViewById(R.id.localityTextView_ProjectStatistics);
+        barChart = (BarChart) findViewById(R.id.barChart);
 
         item = getIntent().getParcelableExtra("item");
 
