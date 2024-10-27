@@ -34,14 +34,14 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:divider="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/busqueda_Statistics" />
+            app:layout_constraintTop_toBottomOf="@+id/switchOrder" />
 
         <SearchView
             android:id="@+id/busqueda_Statistics"
@@ -52,7 +52,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toStartOf="@+id/filter_buttonStatistics"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitleStatistics" />
 
         <ImageButton
             android:id="@+id/filter_buttonStatistics"
@@ -66,19 +66,17 @@
             app:layout_constraintTop_toTopOf="@+id/busqueda_Statistics"
             app:srcCompat="@drawable/filter_icon" />
 
-        <Button
-            android:id="@+id/button2"
-            style="@style/CustomButton"
-            android:layout_width="0dp"
+        <Switch
+            android:id="@+id/switchOrder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/General"
-            android:onClick="generales"
+            android:text="Switch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitleStatistics" />
+            app:layout_constraintTop_toBottomOf="@+id/busqueda_Statistics" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

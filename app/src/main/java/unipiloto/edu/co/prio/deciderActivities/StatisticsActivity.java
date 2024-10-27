@@ -15,11 +15,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -27,6 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import unipiloto.edu.co.prio.MainActivity;
@@ -62,6 +65,7 @@ public class StatisticsActivity extends AppCompatActivity {
         ImageButton filterButton = findViewById(R.id.filter_buttonStatistics);
         drawerLayout = findViewById(R.id.drawer_layout_Statistics);
         NavigationView navigationView = findViewById(R.id.nav_viewStatistics);
+        Switch switchOrder = findViewById(R.id.switchOrder);
         loadMenuItems();
 
 
@@ -145,6 +149,7 @@ public class StatisticsActivity extends AppCompatActivity {
                         if (filteredList == null) {
                             filteredList = new ArrayList<>();
                         }
+                        Collections.sort(filteredList, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
                         notifyDataSetChanged();
                     }
                 };
@@ -190,10 +195,7 @@ public class StatisticsActivity extends AppCompatActivity {
         });
 
     }
-    public void generales(View view) {
-        Intent intent = new Intent(StatisticsActivity.this, GeneralStatisticsActivity.class);
-        startActivity(intent);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
