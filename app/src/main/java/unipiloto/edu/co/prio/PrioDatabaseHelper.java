@@ -381,4 +381,53 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         }
         return true;
     }
+
+    public List<Integer> getVotes(int projectId) {
+        List<Integer> votes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT VOTE_ID FROM Vote WHERE PROYECT_ID = "+"'"+projectId+"'", null);
+        if (cursor.moveToFirst()) {
+            do {
+                votes.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return votes;
+    }
+
+    public List<String> getLocalityByVote(int projectId) {
+        List<String> localities = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT L.NAME FROM Vote V " +
+                        "JOIN User U ON V.USER_ID = U.ID " +
+                        "JOIN Locality L ON U.LOCALITY_ID = L.ID " +
+                        "WHERE V.PROYECT_ID = "+"'"+projectId+"'",null);
+        if (cursor.moveToFirst()) {
+            do {
+                String locality = cursor.getString(0);
+                localities.add(locality);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return localities;
+    }
+
+    public List<Integer> getVotesByLocality(int projectId, String locality) {
+        List<Integer> votes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT VOTE_ID FROM Vote V " +
+                        "JOIN User U ON V.USER_ID = U.ID " +
+                        "JOIN Locality L ON U.LOCALITY_ID = L.ID " +
+                        "WHERE V.PROYECT_ID = "+"'"+projectId+"'"+" AND L.NAME = "+"'"+locality+"'",null);
+        if (cursor.moveToFirst()) {
+            do {
+                votes.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return votes;
+    }
 }
