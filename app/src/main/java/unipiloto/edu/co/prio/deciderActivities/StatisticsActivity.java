@@ -1,27 +1,21 @@
+// StatisticsActivity.java
 package unipiloto.edu.co.prio.deciderActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import unipiloto.edu.co.prio.CustomAdapter;
 import unipiloto.edu.co.prio.MainActivity;
 import unipiloto.edu.co.prio.MapsActivity;
 import unipiloto.edu.co.prio.PrioDatabaseHelper;
@@ -41,8 +36,9 @@ import unipiloto.edu.co.prio.R;
 public class StatisticsActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
-    private ArrayAdapter<Project> listAdapter;
+    private CustomAdapter listAdapter;
     private DrawerLayout drawerLayout;
+    private ArrayList<Project> projects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +46,15 @@ public class StatisticsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_statistics);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-
 
         dbHelper = new PrioDatabaseHelper(this);
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-        ArrayList<Project> projects = dbHelper.getAllProjects();
+        projects = dbHelper.getAllProjects();
         Collections.sort(projects, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
         ListView listView = findViewById(R.id.listView_Statistics);
         SearchView searchView = findViewById(R.id.busqueda_Statistics);
@@ -69,93 +64,7 @@ public class StatisticsActivity extends AppCompatActivity {
         Switch switchOrder = findViewById(R.id.switchOrder);
         loadMenuItems();
 
-
-        listAdapter = new ArrayAdapter<Project>(this, R.layout.card_item, projects) {
-            private List<Project> originalList = new ArrayList<>(projects);
-            private List<Project> filteredList = new ArrayList<>(projects);
-
-            @Override
-            public int getCount() {
-                return filteredList.size();
-            }
-
-            @Override
-            public Project getItem(int position) {
-                return filteredList.get(position);
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.card_item, parent, false);
-                }
-
-                Project currentItem = getItem(position);
-
-                ImageView logoImageView = convertView.findViewById(R.id.logoImageView);
-                TextView titleTextView = convertView.findViewById(R.id.titleTextView);
-                TextView descriptionTextView = convertView.findViewById(R.id.descriptionTextView);
-
-                logoImageView.setImageResource(currentItem.getLogoResId());
-                titleTextView.setText(currentItem.getTitle());
-                descriptionTextView.setText(currentItem.getDescription());
-
-                convertView.setOnClickListener(v -> {
-                    Intent intent = new Intent(StatisticsActivity.this, ProjectStatisticsActivity.class);
-                    intent.putExtra("item", currentItem);
-                    startActivity(intent);
-
-
-                });
-                return convertView;
-            }
-
-            @Override
-            public Filter getFilter() {
-                return new Filter() {
-                    @Override
-                    protected FilterResults performFiltering(CharSequence constraint) {
-                        FilterResults results = new FilterResults();
-                        if (constraint == null || constraint.length() == 0) {
-                            results.values = originalList;
-                            results.count = originalList.size();
-                        } else {
-                            List<Project> filteredItems = new ArrayList<>();
-                            String filterPattern = constraint.toString().toLowerCase().trim();
-                            for (Project item : originalList) {
-                                if (filterPattern.startsWith("loc ")) {
-                                    int localityId = Integer.parseInt(filterPattern.substring(4));
-                                    if (item.getLocalityId() == localityId) {
-                                        filteredItems.add(item);
-                                    }
-                                } else if (filterPattern.startsWith("cat ")) {
-                                    int categoryId = Integer.parseInt(filterPattern.substring(4));
-                                    if (item.getCategoryId() == categoryId) {
-                                        filteredItems.add(item);
-                                    }
-                                } else
-                                if (item.getTitle().toLowerCase().contains(filterPattern)) {
-                                    filteredItems.add(item);
-                                }
-                            }
-                            results.values = filteredItems;
-                            results.count = filteredItems.size();
-                        }
-                        return results;
-                    }
-
-                    @Override
-                    protected void publishResults(CharSequence constraint, FilterResults results) {
-                        filteredList = (List<Project>) results.values;
-                        if (filteredList == null) {
-                            filteredList = new ArrayList<>();
-                        }
-                        Collections.sort(filteredList, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
-                        notifyDataSetChanged();
-                    }
-                };
-            }
-        };
+        listAdapter = new CustomAdapter(this, R.layout.card_item, projects, dbHelper);
         listView.setAdapter(listAdapter);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -170,6 +79,15 @@ public class StatisticsActivity extends AppCompatActivity {
                 listAdapter.getFilter().filter(newText);
                 return false;
             }
+        });
+
+        switchOrder.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Collections.sort(listAdapter.filteredList, (p1, p2) -> Double.compare(getAprobacion(dbHelper.getVotes(p2.getId())), getAprobacion(dbHelper.getVotes(p1.getId()))));
+            } else {
+                Collections.sort(listAdapter.filteredList, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
+            }
+            listAdapter.notifyDataSetChanged();
         });
 
         filterButton.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
@@ -194,9 +112,17 @@ public class StatisticsActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
+    private double getAprobacion(List<Integer> votes) {
+        int aFavor = 0;
+        for (int i : votes) {
+            if (i == 1) {
+                aFavor++;
+            }
+        }
+        return aFavor / (double) votes.size() * 100;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

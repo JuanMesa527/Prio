@@ -41,5 +41,6 @@
     <string name="slogan">El lugar donde\nLa ciudad se expresa</string>
     <string name="wb">Bienvenido!</string>
     <string name="General">Estadisticas Generales</string>
+    <string name="ordenar_por">Ordenar por</string>
 
 </resources>
