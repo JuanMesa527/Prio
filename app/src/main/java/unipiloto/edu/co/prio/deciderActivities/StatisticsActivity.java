@@ -60,6 +60,7 @@ public class StatisticsActivity extends AppCompatActivity {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         ArrayList<Project> projects = dbHelper.getAllProjects();
+        Collections.sort(projects, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
         ListView listView = findViewById(R.id.listView_Statistics);
         SearchView searchView = findViewById(R.id.busqueda_Statistics);
         ImageButton filterButton = findViewById(R.id.filter_buttonStatistics);
