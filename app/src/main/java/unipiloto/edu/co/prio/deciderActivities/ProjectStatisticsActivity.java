@@ -2,6 +2,7 @@ package unipiloto.edu.co.prio.deciderActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
 
 import unipiloto.edu.co.prio.MainActivity;
 import unipiloto.edu.co.prio.MapsActivity;
@@ -30,8 +37,10 @@ import unipiloto.edu.co.prio.citizenActivities.ProjectActivity;
 public class ProjectStatisticsActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
-    private BarChart barChart;
+    private LineChart lineChart;
+    private LineDataSet lineDataSet;
     private Project item;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,21 @@ public class ProjectStatisticsActivity extends AppCompatActivity {
         TextView titleTextView = findViewById(R.id.titleTextView_ProjectStatistics);
         TextView categoryTextView = findViewById(R.id.categoryTextView_ProjectStatistics);
         TextView localityTextView = findViewById(R.id.localityTextView_ProjectStatistics);
-        barChart = (BarChart) findViewById(R.id.barChart);
+        lineChart = findViewById(R.id.lineChart);
+
+        ArrayList<Entry> lineEntries = new ArrayList<Entry>();
+        for (int i = 0; i<11; i++){
+            float y = (int) (Math.random() * 8) + 1;
+            lineEntries.add(new Entry((float) i,(float)y));
+        }
+
+// Unimos los datos al data set
+        lineDataSet = new LineDataSet(lineEntries, "Platzi");
+
+// Asociamos al gráfico
+        LineData lineData = new LineData();
+        lineData.addDataSet(lineDataSet);
+        lineChart.setData(lineData);
 
         item = getIntent().getParcelableExtra("item");
 
@@ -68,6 +91,9 @@ public class ProjectStatisticsActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
