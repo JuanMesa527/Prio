@@ -42,5 +42,6 @@
     <string name="wb">Bienvenido!</string>
     <string name="General">Estadisticas Generales</string>
     <string name="ordenar_por">Ordenar por</string>
+    <string name="obtainLoc_button">Obtener localidad</string>
 
 </resources>

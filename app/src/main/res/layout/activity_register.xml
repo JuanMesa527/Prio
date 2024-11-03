@@ -7,18 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-    <Spinner
-        android:id="@+id/locality"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/locality_textView"
-        app:layout_constraintTop_toBottomOf="@+id/age" />
-
     <TextView
         android:id="@+id/textViewTitleRegister"
         style="@style/CustomTitleTextView"
@@ -83,12 +71,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_style"
-        android:padding="10dp"
         android:hint="@string/email_field"
         android:inputType="textEmailAddress"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/email_textView"
-        app:layout_constraintTop_toBottomOf="@+id/locality" />
+        app:layout_constraintTop_toBottomOf="@+id/btnObtenerLoc" />
 
     <EditText
         android:id="@+id/password"
@@ -247,10 +236,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/locality_field"
-        app:layout_constraintBottom_toBottomOf="@+id/locality"
+        app:layout_constraintBottom_toBottomOf="@+id/btnObtenerLoc"
         app:layout_constraintEnd_toEndOf="@+id/email_textView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/locality" />
+        app:layout_constraintTop_toTopOf="@+id/btnObtenerLoc" />
+
+    <Button
+        android:id="@+id/btnObtenerLoc"
+        style="@style/CustomButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="obtainLoc"
+        android:text="@string/obtainLoc_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locality_textView"
+        app:layout_constraintTop_toBottomOf="@+id/age" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

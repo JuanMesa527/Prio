@@ -1,24 +1,45 @@
 package unipiloto.edu.co.prio;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.text.Normalizer;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private PrioDatabaseHelper dbHelper;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    String locality;
+    Button obtener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +52,9 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        obtener = findViewById(R.id.btnObtenerLoc);
         dbHelper = new PrioDatabaseHelper(this);
-        Spinner localitySpinner = findViewById(R.id.locality);
-        loadLocalities(localitySpinner);
     }
 
     public void registrar(View view) {
@@ -44,7 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
         EditText conPassword = findViewById(R.id.conPassword);
-        Spinner localitySpinner = findViewById(R.id.locality);
 
         String idText = id.getText().toString();
         String firstNameText = firstName.getText().toString();
@@ -53,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         String emailText = email.getText().toString();
         String passwordText = password.getText().toString();
         String conPasswordText = conPassword.getText().toString();
-        String localityText = localitySpinner.getSelectedItem().toString();
+        String localityText = locality;
 
         if (idText.isEmpty() || firstNameText.isEmpty() || lastNameText.isEmpty() || ageText.isEmpty() || emailText.isEmpty() || passwordText.isEmpty() || conPasswordText.isEmpty() || localityText.isEmpty()) {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
@@ -66,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         int ageInt = Integer.parseInt(ageText);
+        localityText = quitarTildes(locality);
         int localityId = dbHelper.getLocalityId(localityText);
         int idInt = Integer.parseInt(idText);
 
@@ -74,8 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Encriptación de la contraseña (opcional)
-        // String encryptedPassword = encryptPassword(passwordText);
 
         boolean insertado = dbHelper.insertUser(idInt, firstNameText, lastNameText, ageInt, emailText, passwordText, 1, localityId);
         if (insertado) {
@@ -93,9 +112,48 @@ public class RegisterActivity extends AppCompatActivity {
         return email.matches(emailPattern);
     }
 
-    private void loadLocalities(Spinner spinner) {
-        List<String> localities = dbHelper.getAllLocalities();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, localities);
-        spinner.setAdapter(adapter);
+    public void obtainLoc(View view) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            obtenerLocalizacion();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+    }
+
+    public void obtenerLocalizacion() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    Geocoder geocoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        locality = addresses.get(0).getSubLocality();
+                        obtener.setText(locality);
+                        obtener.setTextColor(Color.parseColor("#FFFFFF"));
+                        obtener.setEnabled(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private static String quitarTildes(String text) {
+        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("");
     }
 }
