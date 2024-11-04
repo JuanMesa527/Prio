@@ -174,7 +174,7 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         contentValues.put("PASSWORD", password);
         contentValues.put("ROLE_ID", roleId);
         contentValues.put("LOCALITY_ID", localityId);
-        long result = db.insert("User", null, contentValues);
+        long result = db.insert("unipiloto.edu.co.prio.User", null, contentValues);
         if (result == -1) {
             return false;
         }
@@ -429,5 +429,31 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return votes;
+    }
+
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM User", null);
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User(cursor.getInt(0),cursor.getString(1), cursor.getString(2),cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
+                users.add(user);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return users;
+    }
+
+    public boolean updateUserRole(int id, int roleId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ROLE_ID", roleId);
+        long result = db.update("User", contentValues, "ID = "+id, null);
+        if (result == 0) {
+            return false;
+        }
+        return true;
     }
 }

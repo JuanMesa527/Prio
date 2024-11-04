@@ -183,9 +183,7 @@ public class ProjectActivity extends AppCompatActivity implements OnMapReadyCall
                 if (isVoteable) {
                     dbHelper.insertVote(userId, item.getId(), voteId, comment);
                     Toast.makeText(this, "Votación realizada con éxito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ProjectActivity.this, ProjectActivity.class);
-                    intent.putExtra("item", item);
-                    startActivity(intent);
+                    recreate();
                 } else {
                     Toast.makeText(this, "Ya ha votado por este proyecto", Toast.LENGTH_SHORT).show();
                 }

@@ -65,8 +65,11 @@ public class LoginActivity extends AppCompatActivity {
                 Intent loginIntent = new Intent(LoginActivity.this, StatisticsActivity.class);
                 startActivity(loginIntent);
                 finish();
+            } else {
+                Intent loginIntent = new Intent(LoginActivity.this, AdminActivity.class);
+                startActivity(loginIntent);
+                finish();
             }
-            //else login admin
         } else {
             Toast.makeText(this, "Credenciales incorrectas o usuario inexistente", Toast.LENGTH_SHORT).show();
         }
