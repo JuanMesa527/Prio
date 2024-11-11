@@ -61,8 +61,11 @@ public class CustomAdapter extends ArrayAdapter<Project> {
                 aFavor++;
             }
         }
-        double aprobacion = aFavor / (double) votes.size() * 100;
-        descriptionTextView.setText(String.valueOf(dbHelper.getVotes(currentItem.getId()).size() + " votos"+ "\n" + "Rating: " + aprobacion+"%"));
+        double aprobacion = 0;
+        if (votes.size() > 0) {
+            aprobacion = aFavor / (double) votes.size() * 100;
+        }
+        descriptionTextView.setText(dbHelper.getVotes(currentItem.getId()).size() + " votos"+ "\n" + "Rating: " + String.format("%.1f", aprobacion) +"%");
 
         convertView.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ProjectStatisticsActivity.class);
@@ -124,6 +127,10 @@ public class CustomAdapter extends ArrayAdapter<Project> {
                 aFavor++;
             }
         }
-        return aFavor / (double) votes.size() * 100;
+        double aprobacion = 0;
+        if (votes.size() > 0) {
+            aprobacion = aFavor / (double) votes.size() * 100;
+        }
+        return aprobacion;
     }
 }

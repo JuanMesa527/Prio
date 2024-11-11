@@ -1,8 +1,10 @@
 package unipiloto.edu.co.prio.plannerActivities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
 import com.google.android.gms.common.api.Status;
@@ -40,6 +44,7 @@ import java.util.Locale;
 import unipiloto.edu.co.prio.BuildConfig;
 import unipiloto.edu.co.prio.MainActivity;
 import unipiloto.edu.co.prio.MapsActivity;
+import unipiloto.edu.co.prio.NotificationService;
 import unipiloto.edu.co.prio.PrioDatabaseHelper;
 import unipiloto.edu.co.prio.R;
 
@@ -48,6 +53,7 @@ public class AnadirProyectoActivity extends AppCompatActivity {
     private EditText editTextDate2;
     private PrioDatabaseHelper dbHelper;
     private String address;
+    private static final int REQUEST_POST_NOTIFICATIONS = 1;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -82,6 +88,12 @@ public class AnadirProyectoActivity extends AppCompatActivity {
                 Log.i(TAG, "An error occurred google api: " + status);
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_POST_NOTIFICATIONS);
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_anadir);
         setSupportActionBar(toolbar);
@@ -186,13 +198,28 @@ public class AnadirProyectoActivity extends AppCompatActivity {
         boolean insertado = dbHelper.insertProject(nameText, descriptionText,Double.parseDouble(budgetText), startText, endText, categoryId, localityId, address);
         if (insertado) {
             Toast.makeText(this, "Proyecto Agregado", Toast.LENGTH_SHORT).show();
+            Intent notificationIntent = new Intent(this, NotificationService.class);
+            notificationIntent.putExtra("MESSAGE", "Nuevo proyecto agregado a consideracion!");
             Intent intent = new Intent(AnadirProyectoActivity.this, ManageProyectActivity.class);
+            startService(notificationIntent);
             startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Error al agregar Project", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_POST_NOTIFICATIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                Toast.makeText(this, "Permiso de notificaciones denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void logout(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

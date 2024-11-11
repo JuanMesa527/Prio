@@ -51,8 +51,6 @@ public class StatisticsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         dbHelper = new PrioDatabaseHelper(this);
-        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         projects = dbHelper.getAllProjects();
         Collections.sort(projects, (p1, p2) -> Integer.compare(dbHelper.getVotes(p2.getId()).size(), dbHelper.getVotes(p1.getId()).size()));
@@ -121,7 +119,11 @@ public class StatisticsActivity extends AppCompatActivity {
                 aFavor++;
             }
         }
-        return aFavor / (double) votes.size() * 100;
+        double aprobacion = 0;
+        if (votes.size() > 0) {
+            aprobacion = aFavor / (double) votes.size() * 100;
+        }
+        return aprobacion;
     }
 
     @Override
