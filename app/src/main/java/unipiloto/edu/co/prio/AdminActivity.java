@@ -1,6 +1,11 @@
 package unipiloto.edu.co.prio;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -9,11 +14,14 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
+
+import unipiloto.edu.co.prio.citizenActivities.HomeActivity;
 
 public class AdminActivity extends AppCompatActivity {
     private PrioDatabaseHelper dbHelper;
@@ -27,6 +35,9 @@ public class AdminActivity extends AppCompatActivity {
         dbHelper = new PrioDatabaseHelper(this);
         tableLayout = findViewById(R.id.main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -108,5 +119,37 @@ public class AdminActivity extends AppCompatActivity {
     private void assignRole(int userId, int role) {
         dbHelper.updateUserRole(userId, role);
         recreate();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logout_icon) {
+            logout(null);
+            return true;
+        } else if (item.getItemId() == R.id.map_icon) {
+            Intent mapIntent = new Intent(AdminActivity.this, MapsActivity.class);
+            startActivity(mapIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void logout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false);
+        editor.remove("userEmail");
+        editor.apply();
+
+        Intent loginIntent = new Intent(AdminActivity.this, MainActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 }

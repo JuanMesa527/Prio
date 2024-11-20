@@ -174,7 +174,7 @@ public class PrioDatabaseHelper  extends SQLiteOpenHelper {
         contentValues.put("PASSWORD", password);
         contentValues.put("ROLE_ID", roleId);
         contentValues.put("LOCALITY_ID", localityId);
-        long result = db.insert("unipiloto.edu.co.prio.User", null, contentValues);
+        long result = db.insert("User", null, contentValues);
         if (result == -1) {
             return false;
         }
